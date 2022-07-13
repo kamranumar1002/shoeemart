@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Address
+{% endblock title %}
+
+{% block navbar %}
+
+<li><a href="/">Home</a></li>
+<li><a href="/products">Products</a></li>
+<li><a href="/contact">Contact</a></li>
+{% if user.is_anonymous %}
+<li><a href="/login">Login</a></li>
+{% else %}
+<li><a href="/logout">Logout</a></li>
+{% endif %}
+<li><a href="/register">Register</a></li>
+<li style="margin-left: 40px;">
+<a  href="{% url 'cart' %}">
+	<img   id="cart-icon" src="{% static 'images/6+cart.png' %}">
+</a>
+<p id="cart-total">{{cardItems}}</p>
+</li>
+<li class="active"><a href="/userprofile"><i style="margin-right: 4px;" class="far fa-2x fa-user-circle"></i>My Profile</a></li>
+{% endblock navbar %}
+
+{% block body %}
+
+
+<link rel="stylesheet" href="{% static 'styles/userprofile.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+
+  
+    <!-- Header -->
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+      <!-- Mask -->
+      <span class="mask bg-gradient-default opacity-8"></span>
+      <!-- Header container -->
+      
+        <div style="margin: 20px auto;" class="col-xl-8 order-xl-1">
+          {% comment %} <div class="card bg-secondary shadow"> {% endcomment %}
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  {% comment %} <h3 class="mb-0">My account</h3> {% endcomment %}
+                </div>
+                <div class="col-4 text-right">
+                 {% comment %} <a href="#!" class="btn btn-sm btn-primary">Settings</a> ok {% endcomment %}
+                </div>
+              </div>
+           
+                <hr class="my-4">
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                <form action="/addaddress" method="POST">
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-address">Address</label>
+                        <input id="input-address" name='address' class="form-control form-control-alternative" placeholder="Add address" value="" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-city">City</label>
+                        <input type="text" id="input-city" name='city' class="form-control form-control-alternative" placeholder="Your City" value="">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-country">Contact Number</label>
+                        <input type="number" id="input-country" name='contactno' class="form-control form-control-alternative" placeholder="Your Phone No" value="">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-country">Postal code</label>
+                        <input type="number" id="input-postal-code" name='postalcode' class="form-control form-control-alternative" placeholder="Postal code">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button style="margin-top: 12px;" class="w-100 btn btn-lg btn-primary" type="submit">Add address</button>
+                <hr class="my-4">
+                <!-- Description -->
+              
+                {% csrf_token %}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <footer class="footer">
+    <div class="row align-items-center justify-content-xl-between">
+      <div class="col-xl-6 m-auto text-center">
+        <div class="copyright">
+          <p>Made with <a href="https://www.creative-tim.com/product/argon-dashboard" target="_blank">Argon Dashboard</a> by Creative Tim</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+{% endblock body %}

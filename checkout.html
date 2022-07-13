@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Checkout
+{% endblock title %}
+
+{% block navbar %}
+
+<li><a href="/">Home</a></li>
+<li><a href="/products">Products</a></li>
+<li><a href="/contact">Contact</a></li>
+{% if user.is_anonymous %}
+<li><a href="/login">Login</a></li>
+{% else %}
+<li><a href="/logout">Logout</a></li>
+{% endif %}
+<li><a href="/register">Register</a></li>
+<li  class="active" style="margin-left: 40px;">
+<a  href="{% url 'cart' %}">
+	<img   id="cart-icon" src="{% static 'images/6+cart.png' %}">
+</a>
+<p id="cart-total">{{cardItems}}</p>
+</li>
+<li><a href="/userprofile"><i style="margin-right: 6px;" class="far fa-2x fa-user-circle"></i>My Profile</a></li>
+{% endblock navbar %}
+
+
+{% block body %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/cart.css' %}">
+
+
+
+
+ <div  style="margin-top:230px;margin-left:100px;margin-right:100px" class="row">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+				<form id="form">
+					<div id="user-info">
+						<div class="form-field">
+							<input required class="form-control" type="text" name="name" placeholder="Name.." value="{{user.customer.name}}" readonly>
+						</div>
+						<div class="form-field">
+							<input required class="form-control" type="email" name="email" placeholder="Email.." value="{{user.customer.email}}" readonly>
+						</div>
+					</div>
+					
+					<div id="shipping-info">
+						<hr>
+						<p>Shipping Information:</p>
+						<hr>
+						<div class="form-field">
+							<input class="form-control" type="text" name="address" placeholder="Click on Edit Address below to add address" value="{{ok.Address}}" readonly>
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="city" placeholder="City.." value="{{ok.City}}" readonly>
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="phoneNo" placeholder="Phone No.." value="{{ok.PhoneNo}}" readonly>
+						</div>
+						<div class="form-field">
+							<input class="form-control" type="text" name="zipCode" placeholder="Zip code.." value="{{ok.PostalCode}}" readonly>
+						</div>
+					</div>
+
+					<hr>
+					<input class="btn btn-success btn-block" onclick="location.href='/editaddress2'" type="button" value="Edit address">
+					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+				</form>
+			</div>
+
+			<br>
+			<div class="box-element hidden" id="payment-info">
+				<h5 style="margin-bottom:15px;">Payment Options</h5>
+				<div id="paypal-button-container"></div>
+
+			
+				<button style="width:200px;margin-left:200px" type="button" class="btn btn-outline-info" id='make-payment'>Cash On Delivery</button>
+			</div>
+			
+		</div>
+
+		<div class="col-lg-6">
+			<div class="box-element">
+				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+				<hr>
+				<h3>Order Summary</h3>
+				<hr>
+				{% for item in items %}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="{{item.product2.Product_image.url}}"></div>
+					<div style="flex:2"><p>{{item.product2.Product_name}}</p></div>
+					<div style="flex:1"><p>Rs {{item.product2.Product_price}}</p></div>
+					<div style="flex:1"><p>x{{item.quantity}}</p></div>
+				</div>
+				{% endfor %}
+				<h5>Items:   {{order.get_cart_items}}</h5>
+				<h5>Total:   Rs {{order.get_cart_total}}</h5>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD&disable-funding=venmo"></script>
+
+	 <script>
+	 var total = "{{order.get_cart_total}}"
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+			style:{
+				color:'blue',
+				shape:'rect'
+
+			},
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: total
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                    // Successful capture! For demo purposes:
+                   submitFormData()
+
+                    // Replace the above to show a success message within this page, e.g.
+                    // const element = document.getElementById('paypal-button-container');
+                    // element.innerHTML = '';
+                    // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                    // Or go to another URL:  actions.redirect('thank_you.html');
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+    </script>
+
+	<script type="text/javascript">
+	var total = '{{order.get_cart_total}}'
+
+	var form = document.getElementById('form')
+	form.addEventListener('submit', function(e){
+		e.preventDefault()
+		console.log('form submitted...')
+		document.getElementById('form-button').classList.add('hidden')
+		document.getElementById('payment-info').classList.remove('hidden')
+		
+	})
+
+	 document.getElementById('make-payment').addEventListener('click', function(e){
+		submitFormData()
+	})
+
+	function submitFormData(){
+		console.log('Payment button clicked..')
+
+		var userFormData = {
+			'total':total,
+		}
+
+		var shippingInfo = {
+			'address':null,
+			'city':null,
+			'phoneNo':null,
+			'zipCode':null
+
+		}
+		if(user != 'AnonymousUser'){
+			shippingInfo.address = form.address.value
+			shippingInfo.city = form.city.value
+			shippingInfo.phoneNo = form.phoneNo.value
+			shippingInfo.zipCode = form.zipCode.value
+
+		}
+		
+
+		var url = "/process_order/";
+		fetch(url,{
+			method: 'POST',
+        	headers: {
+				'X-CSRFToken': csrftoken,
+				'Content-Type': 'application/json'
+        	},
+			body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}),
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			console.log('Success:', data);
+			alert('Transaction Completed!');
+			window.location.href = "{%url 'products' %}"
+		})
+
+
+	}
+
+
+
+	</script>
+
+	<script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+	<script>
+	{% for msg in messages %}
+  swal(
+      	'{{msg}}'
+    )
+	{% endfor %}
+	</script>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{% endblock body %}

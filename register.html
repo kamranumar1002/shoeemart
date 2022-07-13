@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Register
+{% endblock title %}
+
+{% block navbar %}
+
+<li><a href="/">Home</a></li>
+<li><a href="/products">Products</a></li>
+<li><a href="/contact">Contact</a></li>
+{% if user.is_anonymous %}
+<li><a href="/login">Login</a></li>
+{% else %}
+<li><a href="/logout">Logout</a></li>
+{% endif %}
+<li class="active"><a href="/register">Register</a></li>
+<li style="margin-left: 40px;">
+<a  href="{% url 'cart' %}">
+	<img   id="cart-icon" src="{% static 'images/6+cart.png' %}">
+</a>
+<p id="cart-total">{{cardItems}}</p>
+</li>
+<li><a href="/userprofile"><i style="margin-right: 6px;" class="far fa-2x fa-user-circle"></i>My Profile</a></li>
+{% endblock navbar %}
+
+{% block body %}
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+
+<meta name="keywords" content="Curved Contact Form template Responsive, Login form web template,Flat Pricing tables,Flat Drop downs Sign up Web Templates, 
+ Flat Web Templates, Login sign up Responsive web template, SmartPhone Compatible web template, free web designs for Nokia, Samsung, LG, SonyEricsson, Motorola web design">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- Custom Theme files -->
+<link href="{% static 'styles/style45.css' %}" rel='stylesheet' type='text/css' />
+<!--fonts--> 
+<link href="//fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800" rel="stylesheet">
+<!--//fonts--> 
+
+<body style="margin-top:230px;">
+<!--background-->
+<!-- login -->
+{% comment %} <h1>Curved Contact Form</h1> {% endcomment %}
+	        <div class="login-w3l">	
+			<div class="top-img-agileits-w3layouts">
+				<h2 class="sub-head-w3-agileits">Register Your Account</h2>
+				<p>Fillout the form below</p>
+				<div class="login-form">	
+				<form action="/register" method="POST" enctype="multipart/form-data">
+					<input type="text" placeholder="User Name" name="username" required />
+             		<input type="text" placeholder="First Name" name="firstname" required />
+             		<input type="text" placeholder="Last Name" name="lastname" required />
+             		<input type="email" placeholder="Email" name="email" required />
+             		<input type="password" placeholder="Password" name="password" autocomplete="new-password" required />
+             		<input type="password" placeholder="Confirm Password" name="confirmpassword" autocomplete="new-password" required />
+					<input type="submit" value="Register" name="register">
+					{% csrf_token %}
+					<h3 style="color: #fff; padding-bottom: 10px;font-weight: 400;text-align: center;margin-top:16px;" class="sub-head-w3-agileits">Already have an account</h3>
+					<input type="button" onclick="location.href='/login'" value="Login" >
+				</form>	
+			</div>
+			</div>			
+			
+			<!-- //login -->
+				</div> 
+				<div class="clear"></div>
+			<div class="footer-agileits">
+			<p>© 2018 Curved Contact Form. All Rights Reserved | Design by <a href="http://w3layouts.com/"> W3layouts</a></p>
+			</div>
+			<!--//login-->
+
+			<script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+	<script>
+	{% for msg in messages %}
+  swal(
+      	'{{msg}}'
+    )
+	{% endfor %}
+	</script>
+{% endblock body %}

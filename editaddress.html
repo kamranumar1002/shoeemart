@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Edit Address
+{% endblock title %}
+
+{% block navbar %}
+
+<li><a href="/">Home</a></li>
+<li><a href="/products">Products</a></li>
+<li><a href="/contact">Contact</a></li>
+{% if user.is_anonymous %}
+<li><a href="/login">Login</a></li>
+{% else %}
+<li><a href="/logout">Logout</a></li>
+{% endif %}
+<li><a href="/register">Register</a></li>
+<li style="margin-left: 40px;">
+<a  href="{% url 'cart' %}">
+	<img   id="cart-icon" src="{% static 'images/6+cart.png' %}">
+</a>
+<p id="cart-total">{{cardItems}}</p>
+</li>
+<li class="active"><a href="/userprofile"><i style="margin-right: 6px;" class="far fa-2x fa-user-circle"></i>My Profile</a></li>
+{% endblock navbar %}
+
+
+{% block body %}
+
+
+<link rel="stylesheet" href="{% static 'styles/userprofile.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+
+  
+    <!-- Header -->
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(https://raw.githack.com/creativetimofficial/argon-dashboard/master/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+      <!-- Mask -->
+      <span class="mask bg-gradient-default opacity-8"></span>
+      <!-- Header container -->
+     
+        <div style="margin: 20px auto;" class="col-xl-8 order-xl-1">
+         
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                 
+                </div>
+                <div class="col-4 text-right">
+                 
+                </div>
+              </div>
+            
+                <hr class="my-4">
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                <form action="/editaddress" method="POST">
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-address">Address</label>
+                        <input id="input-address" name='address' class="form-control form-control-alternative" placeholder="Add address" value="{{ok.Address}}" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-city">City</label>
+                        <input type="text" id="input-city" name='city' class="form-control form-control-alternative" placeholder="Your City" value="{{ok.City}}">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-country">Contact Number</label>
+                        <input type="number" id="input-country" name='contactno' class="form-control form-control-alternative" placeholder="Your Phone No" value="{{ok.PhoneNo}}">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-country">Postal code</label>
+                        <input type="number" id="input-postal-code" name='postalcode' class="form-control form-control-alternative" placeholder="Postal code" value="{{ok.PostalCode}}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button style="margin-top: 12px;" class="w-100 btn btn-lg btn-primary" type="submit">Continue</button>
+                <hr class="my-4">
+                <!-- Description -->
+               
+                {% csrf_token %}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+{% endblock body %}

@@ -1,0 +1,348 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Products</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travello template project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/about.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/about_responsive.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+<link rel="stylesheet"  href="{% static 'styles/all.min.css' %}">
+<link rel="stylesheet"  href="{% static 'styles/cart.css' %}">
+	
+<!--===============================================================================================-->
+	 <link rel="stylesheet" type="text/css" href="{% static 'styles/util.css' %}">
+	 <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/ok3.css' %}">
+<script type="text/javascript">
+	var user = '{{request.user}}'
+
+	
+	function getToken(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+	}
+	const csrftoken = getToken('csrftoken');
+	</script>
+</head>
+<body>
+
+<div class="super_container">
+	
+	<!-- Header -->
+
+	<header class="header">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="header_content d-flex flex-row align-items-center justify-content-start">
+						<div class="header_content_inner d-flex flex-row align-items-end justify-content-start">
+							<div class="logo"><a href="/">Shoemart</a></div>
+							<nav class="main_nav">
+								<ul class="d-flex flex-row align-items-start justify-content-start">
+									<li><a href="/">Home</a></li>
+									{% comment %} <li><a href="/productsbags">Bags</a></li> {% endcomment %}
+									<li class="active"><a href="/products">Products</a></li>
+									<li><a href="/contact">Contact</a></li>
+									{% if user.is_anonymous %}
+									<li><a href="/login">Login</a></li>
+									{% else %}
+									<li><a href="/logout">Logout</a></li>
+									{% endif %}
+									<li><a href="/register">Register</a></li>
+	     							<li style="margin-left: 88px;">
+									<a  href="{% url 'cart' %}">
+										<img   id="cart-icon" src="{% static 'images/6+cart.png' %}">
+									</a>
+									<p id="cart-totall">{{cardItems}}</p>
+									</li>
+									<li style="float: right;"><a href="/userprofile"><i style="margin-right: 4px;" class="far fa-2x fa-user-circle"></i>My Profile</a></li>
+								</ul>
+								
+							</nav>
+							
+
+							<!-- Hamburger -->
+
+							<div class="hamburger ml-auto">
+								<i class="fa fa-bars" aria-hidden="true"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="header_social d-flex flex-row align-items-center justify-content-start">
+			<ul class="d-flex flex-row align-items-start justify-content-start">
+				<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+			</ul>
+		</div>
+	</header>
+
+	<!-- Menu -->
+
+	<div class="menu">
+		<div class="menu_header d-flex flex-row align-items-center justify-content-start">
+			<div class="menu_logo"><a href="/">Shoemart</a></div>
+			<div class="menu_close_container ml-auto"><div class="menu_close"><div></div><div></div></div></div>
+		</div>
+		<div class="menu_content">
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/products">Products</a></li>
+									<li><a href="/contact">Contact</a></li>
+									{% if user.is_anonymous %}
+									<li><a href="/login">Login</a></li>
+									{% else %}
+									<li><a href="/logout">Logout</a></li>
+									{% endif %}
+									<li><a href="/register">Register</a></li>
+									<li>
+									<a  href="{% url 'cart' %}">
+										<img   id="cart-icon" src="{% static 'images/6+cart.png' %}">
+									</a>
+									<p id="cart-total">{{cardItems}}</p>
+									</li>
+									<li><a href="/userprofile"><i style="margin-top: 14px;"></i>My Profile</a></li>
+								</ul>
+		</div>
+		<div class="menu_social">
+			<div class="menu_phone ml-auto">Call us: +92 3351892241</div>
+			<ul class="d-flex flex-row align-items-start justify-content-start">
+				<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<!-- Home -->
+
+	<div class="home">
+		<div class="background_image" style="background-image:url(static/images/ok8.jpg)"></div>
+	</div>
+
+	<div class="home_page_nav">
+				<ul class="d-flex flex-column align-items-end justify-content-end">
+					<li><a href="#" data-scroll-to="#destinations">Products<span>01</span></a></li>
+					
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Search -->
+
+	
+
+	<!-- About -->
+
+	
+	<!-- Products -->
+
+		<div class="bg0 m-t-23 p-b-140" id='ok'>
+		<div class="container">
+			<div class="flex-w flex-sb-m p-b-52">
+				<div style="margin-left:280px;" class="flex-w flex-l-m filter-tope-group m-tb-10">
+					<button onclick="location.href='/products#ok';" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" >
+						All Products
+					</button>
+
+					<button onclick="location.href='/ok#ok';" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+						Bag
+					</button>
+
+					<button onclick="location.href='/ok2#ok';" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" >
+						Shoes
+					</button>
+
+					<button onclick="location.href='/ok3#ok';" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+						Belt
+					</button>
+
+					<button onclick="location.href='/ok4#ok';" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" >
+						Wallet
+					</button>
+
+					<button onclick="location.href='/ok5#ok';" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" >
+						Watches
+					</button>
+				</div>
+
+				 <div class="flex-w flex-c-m m-tb-10">
+					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+						 Filter
+					</div>
+
+					
+					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+						Search
+					</div> 
+					
+				</div>
+				
+				<!-- Search product -->
+				<form action="{% url 'products' %}#ok" method="get" >
+				<div class="dis-none panel-search w-full p-t-10 p-b-15">
+					<div class="bor8 dis-flex p-l-15">
+						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+
+						<input id="searchForm" class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search" placeholder="Search" value="{{search}}" required="required">
+					</div>	
+				</div>
+				</form>
+
+
+<div  class="destinations" id="destinations">
+	
+			<div class="row destinations_row">
+				<div class="col">
+					<div class="destinations_container item_grid">
+
+						<!-- Destination -->
+						{% for dest in dests %}
+						<div class="destination item ">
+							<div class="destination_image">
+								<img src="{{dest.Product_imageURL}}" width="100%" height="225" alt="">
+								{% if dest.Special_offer %}
+								<div class="spec_offer text-center"><a href="#">Special Offer</a></div>
+								{% endif %}
+							</div>
+							<div class="destination_content">
+								<div class="destination_title"><a href="destinations.html">{{dest.Product_name}}</a></div>
+								<div class="destination_subtitle"><p>{{dest.Product_desc}}</p></div>
+								<div class="destination_price">Rs {{dest.pricecomma}}</div>
+						   </div>
+							 <div class="btn-group">
+							<button id = "qv{{dest.id}}" style="margin-top: 5px;" type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href = 'viewproduct/{{dest.id}}';">View</button>
+							<button data-product="{{dest.id}}" data-action="add" style="margin-left: 10px;margin-top: 5px;" class="btn btn-sm btn-outline-secondary update-cart js-addcart">Add to cart</button>
+						</div>
+						</div>
+						{% endfor %}
+						
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="flex-c-m flex-w w-full p-t-38">
+	{% comment %} <ul class='container'> {% endcomment %}
+	{% for page in paginator.page_range %}
+	{% if page == dests.number%}
+	<a href="?page={{page}}#ok" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1" data-page={{page}}>{{page}}</a>
+	{% else %}
+	<a href="?page={{page}}#ok" class="flex-c-m how-pagination1 trans-04 m-all-7" data-page={{page}}>{{page}}</a>
+	{% endif %}
+	{% comment %} <li style="display:inline-block;" class="how-pagination1"><a href="?page={{page}}">{{page}}</a></li> {% endcomment %}
+	{% endfor %}
+	{% comment %} </ul> {% endcomment %}
+	</div>
+
+	<!-- Bags -->
+
+{% comment %} <script type="text/javascript">
+	let searchForm = document.getElementById('searchForm')
+	let pageLinks = document.getElementsByClassName('how-pagination1')
+ 
+	if (searchForm) {
+		for (let i=0; pageLinks.length > i; i++) {
+			pageLinks[i].addEventListener('click', function (e) {
+				e.preventDefault()
+
+				let page = this.dataset.page
+
+				searchForm.innerHTML += `<input value=${page} name="page" hidden/> `
+
+				searchForm.submit() 
+			})
+		}
+	}
+
+</script> {% endcomment %}
+	<!-- Footer -->
+
+	
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/greensock/TweenMax.min.js' %}"></script>
+<script src="{% static 'plugins/greensock/TimelineMax.min.js' %}"></script>
+<script src="{% static 'plugins/scrollmagic/ScrollMagic.min.js' %}"></script>
+<script src="{% static 'plugins/greensock/animation.gsap.min.js' %}"></script>
+<script src="{% static 'plugins/greensock/ScrollToPlugin.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
+<script src="{% static 'js/about.js' %}"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/ok5.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+	<script>
+	{% for msg in messages %}
+  swal(
+      	'{{msg}}'
+    )
+	{% endfor %}
+	</script>
+
+	
+
+{% comment %} <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> {% endcomment %}
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

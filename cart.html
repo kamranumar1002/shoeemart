@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Cart
+{% endblock title %}
+
+{% block navbar %}
+
+<li><a href="/">Home</a></li>
+<li><a href="/products">Products</a></li>
+<li><a href="/contact">Contact</a></li>
+{% if user.is_anonymous %}
+<li><a href="/login">Login</a></li>
+{% else %}
+<li><a href="/logout">Logout</a></li>
+{% endif %}
+<li><a href="/register">Register</a></li>
+<li class="active" style="margin-left: 40px;">
+<a  href="{% url 'cart' %}">
+	<img   id="cart-icon" src="{% static 'images/6+cart.png' %}">
+</a>
+<p id="cart-total">{{cardItems}}</p>
+</li>
+<li><a href="/userprofile"><i style="margin-right: 6px;" class="far fa-2x fa-user-circle"></i>My Profile</a></li>
+{% endblock navbar %}
+
+
+{% block body %}
+
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/cart.css' %}">
+
+
+
+<div style="margin-top:190px;margin-left:100px;margin-right:100px" class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+
+				<a  class="btn btn-outline-dark" href="{% url 'products' %}">&#x2190; Continue Shopping</a>
+
+				<br>
+				<br>
+				<table class="table">
+					<tr>
+						<th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th>
+						<th><h5>Total:<strong> Rs {{order.get_cart_total}}</strong></h5></th>
+						<th>
+							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+						</th>
+					</tr>
+				</table>
+
+			</div>
+
+			<br>
+			<div class="box-element">
+				<div class="cart-row">
+					<div style="flex:2"></div>
+					<div style="flex:2"><strong>Item</strong></div>
+					<div style="flex:1"><strong>Price</strong></div>
+					<div style="flex:1"><strong>Quantity</strong></div>
+					<div style="flex:1"><strong>Total</strong></div>
+				</div>
+				{% for item in items %}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="{{item.product2.Product_image.url}}"></div>
+					<div style="flex:2"><p>{{item.product2.Product_name}}</p></div>
+					<div style="flex:1"><p>Rs {{item.product2.pricecomma}}</p></div>
+					<div style="flex:1">
+						<p class="quantity">{{item.quantity}}</p>
+						<div class="quantity">
+							<img data-product="{{item.product2.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/up.png' %}">
+					
+							<img data-product="{{item.product2.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/down.png' %}">
+						</div>
+					</div>
+					<div style="flex:1"><p>Rs {{item.get_total1}}</p></div>
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+	<script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+	<script>
+	{% for msg in messages %}
+  swal(
+      	'{{msg}}'
+    )
+	{% endfor %}
+	</script>
+
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+{% endblock body %}
