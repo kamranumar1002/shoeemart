@@ -162,6 +162,8 @@ def userprofile(request):
         return redirect('/login')
     
     order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    ok, created = UserProfile.objects.get_or_create(user=request.user,
+    defaults={'Address':'','City':'','PostalCode':0,'PhoneNo':0})
     cartItems = order.get_cart_items
     return render(request,'userprofile.html',{'ok':ok,'cardItems':cartItems})
 
