@@ -107,7 +107,7 @@ def register(request):
         else:
             user = User.objects.create_user(username=username,first_name=first_name,last_name=last_name,password=password,email=email)
             user.save();
-           template = render_to_string('email.html', {'name':first_name})
+            template = render_to_string('email.html', {'name':first_name})
             subject = 'Your Account is Registered!'
             send_mail(
                 subject,
