@@ -13,6 +13,7 @@ import datetime
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.core.mail import message, send_mail
 from django.conf import settings
+from django.template.loader import render_to_string
 
 # Create your views here.
 def index(request):
