@@ -107,11 +107,11 @@ def register(request):
         else:
             user = User.objects.create_user(username=username,first_name=first_name,last_name=last_name,password=password,email=email)
             user.save();
+           template = render_to_string('email.html', {'name':first_name})
             subject = 'Your Account is Registered!'
-            message = 'Welcome to the No.1 SHOPPING APP SHOEMART! Your Account is Registered! One small step for you, but one giant leap ahead for your shopping experience.Need Help? Feel free to Contact. HAPPY SHOPPING'
             send_mail(
                 subject,
-                message,
+                template,
                 settings.EMAIL_HOST_USER,
                 [email],
                 fail_silently=False,
